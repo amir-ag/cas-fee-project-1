@@ -5,11 +5,11 @@
   "main": "public/scripts/main.js",
   "type": "module",
   "scripts": {
-    "start": "node ./source/index.js",
+    "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "stylelint": "stylelint \"./source/**/*.css\"",
-    "w3c": "html-validator --file ./source/public/index.html  --verbose",
-    "eslint": "eslint ./source/**/*.js",
+    "stylelint": "stylelint \\\"src/**/*.css\\\"",
+    "w3c": "html-validator --file src/public/index.html  --verbose",
+    "eslint": "eslint src/**/*.js",
     "all": "npm run stylelint && npm run w3c  && npm run eslint  && node -e \"console.log('npm run all completed')\""
   },
   "author": "Michael Gfeller",
