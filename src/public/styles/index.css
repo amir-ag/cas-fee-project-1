@@ -4,17 +4,28 @@
     padding: 0;
 }
 
+:root {
+    --outer-background: #f5f5f5;
+    --background: white;
+}
+
+.alternative {
+    --outer-background: black;
+    --background: grey;
+}
+
 html {
     height: 100vh;
-    background-color: #f5f5f5;
+    background-color: var(--outer-background);
     font-family: Gill Sans Extrabold, sans-serif;
 }
 
 body {
     width: 80vw;
+    max-width: 1500px;
     height: 90vh;
     margin-top: 3rem;
-    background-color: white;
+    background-color: var(--background);
 }
 
 .header-top {
@@ -62,89 +73,72 @@ body {
     margin-left: 1rem;
 }
 
+main {
+    height: 70vh;
+}
+
 .note-list {
-    max-height: 70vh;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0;
+    height: 100%;
+    overflow-y: scroll;
 }
 
 .note-item {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    max-height: 14vh;
-    min-height: 14vh;
+    height: 20vh;
     border-bottom: 1px solid gray;
-}
-
-.first-note-module {
-    width: 25%;
-    display: flex;
+    padding-bottom: 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr 1fr;
+    justify-items: center;
     align-items: center;
-    justify-content: space-around;
-    flex-direction: column;
+    grid-template-areas:
+        'due-day title-container title-container button-container'
+        'checkbox-form textarea textarea button-container';
 }
 
 .due-day {
-    font-size: 1.5rem;
-}
+    grid-area: due-day;
 
-.checkbox-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-.checkbox-label {
-    padding-left: 2rem;
-    margin: 0;
-    font-size: 1.5rem;
-}
-
-.checkbox {
-    margin: 0;
-}
-
-.second-note-module {
-    width: 60%;
-    display: flex;
-    justify-content: space-evenly;
-    flex-direction: column;
 }
 
 .title-container {
-    width: 90%;
-    height: 30%;
+    grid-area: title-container;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    width: 100%;
 }
 
-.title-container h1 {
+.title-container h2 {
     margin: 0;
 }
 
-.title-container .importance-container {
+.importance-container {
     display: flex;
+    margin: 0;
+}
+
+.button-container {
+    grid-area: button-container;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.button-container button {
+    height: 50%;
+    width: 25%;
+    margin: 0;
+}
+
+.checkbox-form {
+    grid-area: checkbox-form;
 }
 
 .textarea {
-    width: 90%;
-    height: 70%;
+    grid-area: textarea;
     resize: none;
-    margin-bottom: 0.5rem;
-}
-
-.third-note-module {
-    width: 15%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.third-note-module button {
-    height: 3rem;
-    width: 6rem;
-    border-radius: 5px;
+    width: 100%;
+    height: 100%;
 }
