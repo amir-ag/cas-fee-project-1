@@ -43,6 +43,13 @@ const initialNotes = [
     },
 ]
 
+const themeButton = document.getElementById('theme-button');
+themeButton.addEventListener('click', () => {
+    document.body.classList.toggle('alternative')
+
+})
+
+
 class NoteModel {
     constructor(initialNotes) {
         this.notes = initialNotes;
@@ -72,7 +79,7 @@ class NoteModel {
 
 class NoteView {
     constructor() {
-        this.app = this.getElement('.note-container');
+        this.app = this.getElement('main');
         this.noteList = this.createElement('ul', 'note-list');
         this.app.append(this.noteList);
     }
@@ -124,41 +131,39 @@ class NoteView {
                 const li = this.createElement('li', 'note-item');
                 li.id = note.id;
 
-                const firstNoteModule = this.createElement('div', 'first-note-module');
                 const dueDay = this.createElement('p', 'due-day');
                 dueDay.textContent = note.dueDay;
-                const completeContainer = this.createElement('div', 'checkbox-container');
+
+                const titleContainer = this.createElement('div', 'title-container');
+                const title = this.createElement('h2');
+                title.textContent = note.title;
+                const importance = this.createImportanceSVG(note.importance);
+                titleContainer.append(title, importance);
+
+                const completeContainer = this.createElement('form', 'checkbox-form');
                 const completeCheckBox = this.createElement('input', 'checkbox');
                 completeCheckBox.type = 'checkbox';
-                completeCheckBox.id = 'note';
-                completeCheckBox.htmlFor = 'note';
+                completeCheckBox.id = 'note-checkbox';
                 completeCheckBox.checked = note.complete;
                 const completeCheckBoxLabel = this.createElement('label', 'checkbox-label');
                 completeCheckBoxLabel.textContent = 'Finished';
-                completeContainer.append(completeCheckBox);
-                completeContainer.append(completeCheckBoxLabel);
-                firstNoteModule.append(dueDay, completeContainer);
+                completeCheckBoxLabel.setAttribute('for','note-checkbox');
+                completeContainer.append(completeCheckBox, completeCheckBoxLabel);
 
-                const titleContainer = this.createElement('div', 'title-container');
-                const title = this.createElement('h1');
-                title.textContent = note.title;
-                const importance = this.createImportanceSVG(note.importance);
-
-                const secondNoteModule = this.createElement('div', 'second-note-module');
                 const textContent = this.createElement('textarea', 'textarea');
                 textContent.textContent = note.body;
                 textContent.readOnly = true;
-                titleContainer.append(title, importance);
-                secondNoteModule.append(titleContainer, textContent);
 
-                const thirdNoteModule = this.createElement('div', 'third-note-module');
+                const buttonContainer = this.createElement('div', 'button-container');
                 const editButton = this.createElement('button');
                 editButton.textContent = 'Edit';
+                buttonContainer.append(editButton)
                 const deleteButton = this.createElement('button', 'delete-button');
                 deleteButton.textContent = 'Delete';
-                thirdNoteModule.append(editButton, deleteButton);
+                buttonContainer.append(deleteButton);
 
-                li.append(firstNoteModule, secondNoteModule, thirdNoteModule);
+
+                li.append(dueDay, titleContainer, completeContainer, textContent, buttonContainer);
                 this.noteList.append(li);
             });
         }
