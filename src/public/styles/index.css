@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
     margin: 0 auto;
     padding: 0;
 }
@@ -7,6 +8,8 @@
 :root {
     --outer-background: #f5f5f5;
     --background: white;
+    --button-color: #c60018;
+    --button-hover: #eb0000;
 }
 
 .alternative {
@@ -35,18 +38,27 @@ body {
     align-items: center;
 }
 
-.header-top > button {
-    width: 10rem;
-    height: 4rem;
-    margin: 5rem 1rem 5rem 1rem;
+.header-top button {
+    margin: 1rem;
+}
+
+button {
+    /*background-color: var(--button-color);*/
+    background-color: white;
+    border: 2px solid var(--button-color);
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
     border-radius: 5px;
 }
 
-.header-top > button:first-child {
-    width: 10rem;
-    height: 4rem;
-    margin: 5rem 1rem 5rem 1rem;
-    box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.5);
+button:hover {
+    background-color: var(--button-hover);
+    color: white;
 }
 
 .header-sort {
@@ -57,10 +69,8 @@ body {
 }
 
 .header-sort > button {
-    margin: 0;
-    width: 20rem;
-    height: 2rem;
-    box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.5);
+    margin: 1rem;
+    padding: 15px 70px;
     border-radius: 5px;
 }
 
@@ -121,7 +131,7 @@ main {
     grid-area: button-container;
     display: flex;
     align-items: flex-end;
-    justify-content: center;
+    justify-content: space-evenly;
     height: 100%;
     width: 100%;
 }
@@ -130,6 +140,7 @@ main {
     height: 50%;
     width: 25%;
     margin: 0;
+    padding: 0;
 }
 
 .checkbox-form {
@@ -141,4 +152,62 @@ main {
     resize: none;
     width: 100%;
     height: 100%;
+}
+
+.create-note {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+form {
+    width: 80%;
+}
+
+form > div {
+    margin: 0;
+    display: flex;
+    align-items: flex-start;
+}
+
+form > div > label {
+    margin: 0;
+    width: 20%;
+}
+
+.form-description-container {
+    height: 30%;
+}
+
+#create-title {
+    margin: 0;
+    width: 70%;
+}
+
+#create-description {
+    margin: 0;
+    width: 70%;
+    height: 100%;
+}
+
+#create-importance {
+    margin: 0;
+}
+
+#create-date {
+    margin: 0;
+}
+
+#save-button {
+    width: 100%;
+}
+
+.cancel-button {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#cancel-button {
+    margin: 0;
 }
