@@ -5,7 +5,10 @@ import NoteModel from './NoteModel.js';
 const initialNotes = [
     {
         "id": 1,
-        "dueDay": "2021-06-30",
+        "dueDay": {
+            "weekday": "Monday",
+            "date": "2021-06-25",
+        },
         "title":"implement html",
         "importance":1,
         "complete":false,
@@ -14,7 +17,10 @@ const initialNotes = [
     },
     {
         "id":2,
-        "dueDay":"2021-06-29",
+        "dueDay": {
+            "weekday": "Tuesday",
+            "date": "2021-06-24",
+        },
         "title":"implement basic css",
         "importance":5,
         "complete":true,
@@ -24,7 +30,10 @@ const initialNotes = [
     },
     {
         "id":3,
-        "dueDay":"2021-06-28",
+        "dueDay": {
+            "weekday": "Thursday",
+            "date": "2021-06-30",
+        },
         "title":"generate notes in js",
         "importance":5,
         "complete":false,
@@ -33,7 +42,10 @@ const initialNotes = [
     },
     {
         "id":4,
-        "dueDay":"2021-06-27",
+        "dueDay": {
+            "weekday": "Sunday",
+            "date": "2021-06-15",
+        },
         "title":"implement event/observer functionality",
         "importance":2,
         "complete":false,
@@ -42,7 +54,10 @@ const initialNotes = [
     },
     {
         "id":5,
-        "dueDay":"2021-06-26",
+        "dueDay": {
+            "weekday": "Saturday",
+            "date": "2021-06-1",
+        },
         "title":"clean",
         "importance":3,
         "complete":true,
@@ -168,24 +183,27 @@ class NoteView {
             notes.forEach((note) => {
                 const noteTemplate = `
                 <li id="${note.id}" class="note-item">
-                    <label for="dueDay ${note.id}">To be done by: 
-                        <output id="dueDay ${note.id}" class="due-day">${note.dueDay}</output>
-                    </label>
-                    <div class="title-container">
-                        <h2>${note.title}</h2>
-                        <div class="importance-container">${this.createImportanceSVG(note.importance)}</div>
-                    </div>
-                    <form class="checkbox-form">
-                        <label class="checkbox-label">
-                            <input id="checkbox ${note.id}" type="checkbox" ${note.complete ? "checked" : ""}>
-                            Finished
-                        </label>
+                    <form class="edit-note">
+                        <div class="dueday-container">
+                            <label for="dueDay ${note.id}">To be done by: </label>
+                            <output id="dueDay ${note.id}" class="due-day">${note.dueDay.weekday}, ${note.dueDay.date}</output>
+                        </div>
+                        <div class="title-container">
+                            <h2>${note.title}</h2>
+                            <div class="importance-container">${this.createImportanceSVG(note.importance)}</div>
+                        </div>
+                        <div class="checkbox-form">
+                            <label class="checkbox-label">
+                                <input id="checkbox ${note.id}" type="checkbox" ${note.complete ? "checked" : ""}>
+                                Finished
+                            </label>
+                        </div>
+                        <textarea class="textarea" readonly>${note.body}</textarea>
+                        <div class="button-container">
+                            <button>Edit</button>
+                            <button class="delete-button">Delete</button>
+                        </div>
                     </form>
-                    <textarea class="textarea" readonly>${note.body}</textarea>
-                    <div class="button-container">
-                        <button>Edit</button>
-                        <button class="delete-button">Delete</button>
-                    </div>
                 </li>
                 `;
                 this.noteListView.innerHTML += noteTemplate; //check if refactor necessary

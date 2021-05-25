@@ -3,10 +3,18 @@ export default class NoteModel {
         this.notes = initialNotes;
     }
 
+    createDate(date) {
+        const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const splitDate = date.split('-');
+        const dat = new Date(splitDate[0], (splitDate[1] - 1), splitDate[2]);
+        return weekDays[dat.getDay()];
+    }
+
     addNote({date = 0, title = '', importance = 1, description = ''}) {
+        console.log('date: ', date);
         const newNote = {
             id: this.notes.length > 0 ? this.notes[this.notes.length - 1].id + 1 : 1,
-            dueDay: date,
+            dueDay: {weekday: this.createDate(date), date},
             title,
             importance,
             complete: false,

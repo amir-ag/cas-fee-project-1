@@ -93,9 +93,20 @@ main {
 }
 
 .note-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-note {
     height: 20vh;
-    border-bottom: 1px solid gray;
+    width: 80%;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+    box-shadow: 20px 15px 36px #c5c2c2;
     padding-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid #bfbfbf;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: 1fr 1fr;
@@ -108,7 +119,16 @@ main {
 
 .due-day {
     grid-area: due-day;
+}
 
+.dueday-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.dueday-container > label {
+    width: 100%;
+    margin-bottom: 1rem;
 }
 
 .title-container {
@@ -165,7 +185,7 @@ form {
     width: 80%;
 }
 
-form > div {
+.create-note > div {
     margin: 0;
     display: flex;
     align-items: flex-start;
