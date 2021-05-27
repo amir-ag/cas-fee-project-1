@@ -1,4 +1,4 @@
-export default class NoteModel {
+class NoteService {
     constructor(initialNotes) {
         this.notes = initialNotes;
     }
@@ -11,7 +11,6 @@ export default class NoteModel {
     }
 
     addNote({date = 0, title = '', importance = 1, description = ''}) {
-        console.log('date: ', date);
         const newNote = {
             id: this.notes.length > 0 ? this.notes[this.notes.length - 1].id + 1 : 1,
             dueDay: {weekday: this.createDate(date), date},
@@ -49,3 +48,5 @@ export default class NoteModel {
         this.onNotesChanged = callback;
     }
 }
+
+export default NoteService;

@@ -12,6 +12,7 @@
     --button-background-color: white;
     --button-hover: rgba(198, 0, 24, 0.5);
     --textarea-background-color: white;
+    --box-shadow: 20px 12px 33px #b9b3b375;
 }
 
 .alternative {
@@ -21,6 +22,7 @@
     --button-background-color: #efc7a3;
     --button-hover: #eaccb4;
     --textarea-background-color: #9aa5b1;
+    --box-shadow: none;
 }
 
 html {
@@ -125,7 +127,7 @@ main {
     margin-bottom: 2rem;
     margin-top: 1rem;
     /*box-shadow: 20px 15px 36px #c5c2c2;*/
-    box-shadow: 20px 12px 33px #b9b3b375;
+    box-shadow: var(--box-shadow);
     padding-bottom: 10px;
     border-radius: 10px;
     border: 1px solid #bfbfbf;
