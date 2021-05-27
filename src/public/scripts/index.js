@@ -1,4 +1,5 @@
 // import Bolt from '../assets/bolt.svg';
+// import Eleve from '../assets/eleve.svg';
 // eslint-disable-next-line max-classes-per-file
 import NoteModel from './NoteModel.js';
 
@@ -78,7 +79,7 @@ class NoteView {
         this.noteListView.addEventListener('click', (event) => {
             if (event.target.className === 'delete-button') {
                 // eslint-disable-next-line radix
-                const id = parseInt(event.target.parentElement.parentElement.id);
+                const id = parseInt(event.target.parentElement.parentElement.parentElement.id);
                 handler(id);
             }
         });
@@ -105,7 +106,6 @@ class NoteView {
                 importance: document.querySelector('#create-importance').value,
                 date: document.querySelector('#create-date').value,
             };
-            console.log('data: ', data)
             handler(data);
             document.querySelector('.create-note').reset();
         });
@@ -159,7 +159,7 @@ class NoteView {
     switchTheme() {
         const themeButton = document.querySelector('#theme-button');
         themeButton.addEventListener('click', () => {
-            document.body.classList.toggle('alternative')
+            document.body.classList.toggle('alternative');
         })
     }
 
@@ -178,7 +178,10 @@ class NoteView {
     renderNoteView(notes) {
         if (this.noteListView.firstChild) this.removeListItems();
         if (notes.length === 0) {
-            this.noteListView.innerHTML = '<p>Create your first note by clicking "Create new note"!</p>';
+            this.noteListView.innerHTML = `
+                <div class="empty-notelist">
+                    <h3>Create your first note by clicking "Create new note"!</h3>
+                </div>`;
         } else {
             notes.forEach((note) => {
                 const noteTemplate = `
