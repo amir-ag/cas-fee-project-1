@@ -84,7 +84,7 @@ export default class NoteView {
     createImportanceSVG(priority) {
         let importanceSVG = '';
         for (let i = 0; i < priority; i++) {
-            const svg = `<object data="../assets/bolt.svg" type="image/svg+xml">`;
+            const svg = `<object data="${Bolt}" type="image/svg+xml">`;
             // const svg = '!';
             importanceSVG += svg;
         }
