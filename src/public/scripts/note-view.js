@@ -1,73 +1,8 @@
-// import Bolt from '../assets/bolt.svg';
+import Bolt from '../assets/bolt.svg';
 // import Eleve from '../assets/eleve.svg';
 // eslint-disable-next-line max-classes-per-file
-import NoteModel from './NoteModel.js';
 
-const initialNotes = [
-    {
-        "id": 1,
-        "dueDay": {
-            "weekday": "Monday",
-            "date": "2021-06-25",
-        },
-        "title":"implement html",
-        "importance":1,
-        "complete":false,
-        "body":"test a couple of things",
-        "created":"1620743338",
-    },
-    {
-        "id":2,
-        "dueDay": {
-            "weekday": "Tuesday",
-            "date": "2021-06-24",
-        },
-        "title":"implement basic css",
-        "importance":5,
-        "complete":true,
-        "body":"test a couple of things",
-        "created":"1620829738",
-
-    },
-    {
-        "id":3,
-        "dueDay": {
-            "weekday": "Thursday",
-            "date": "2021-06-30",
-        },
-        "title":"generate notes in js",
-        "importance":5,
-        "complete":false,
-        "body":"test a couple of things",
-        "created":"1620916138",
-    },
-    {
-        "id":4,
-        "dueDay": {
-            "weekday": "Sunday",
-            "date": "2021-06-15",
-        },
-        "title":"implement event/observer functionality",
-        "importance":2,
-        "complete":false,
-        "body":"test a couple of things",
-        "created":"1621002538",
-    },
-    {
-        "id":5,
-        "dueDay": {
-            "weekday": "Saturday",
-            "date": "2021-06-1",
-        },
-        "title":"clean",
-        "importance":3,
-        "complete":true,
-        "body":"test a couple of things",
-        "created":"1621088938",
-    },
-];
-
-class NoteView {
+export default class NoteView {
     constructor() {
         this.app = document.querySelector('main');
         this.noteListView = this.createElement('ul', 'note-list');
@@ -90,9 +25,9 @@ class NoteView {
         createNoteButton.addEventListener('click', () => {
             const header = document.querySelector('Header');
             header.style.display = 'none';
-            app.view.noteListView.style.display = 'none';
-            app.view.removeListItems();
-            app.view.createNoteView.style.display = 'flex';
+            this.noteListView.style.display = 'none';
+            this.removeListItems();
+            this.createNoteView.style.display = 'flex';
         });
     }
 
@@ -149,8 +84,8 @@ class NoteView {
     createImportanceSVG(priority) {
         let importanceSVG = '';
         for (let i = 0; i < priority; i++) {
-            // const svg = `<object data="../assets/bolt.svg" type="image/svg+xml">`
-            const svg = '!';
+            const svg = `<object data="../assets/bolt.svg" type="image/svg+xml">`;
+            // const svg = '!';
             importanceSVG += svg;
         }
         return importanceSVG;
@@ -160,7 +95,7 @@ class NoteView {
         const themeButton = document.querySelector('#theme-button');
         themeButton.addEventListener('click', () => {
             document.body.classList.toggle('alternative');
-        })
+        });
     }
 
     render(notes) {
@@ -242,47 +177,3 @@ class NoteView {
         this.createNoteView.style.display = '';
     }
 }
-
-class NoteController {
-    constructor(model, view) {
-        this.model = model;
-        this.view = view;
-
-        this.view.switchTheme();
-        this.view.openCreateNoteHandler();
-
-        this.onNotesChanged(this.model.notes);
-        this.view.bindDeleteNote(this.handleDeleteNote);
-        this.view.bindCreateNewNote(this.handleAddNote);
-        this.view.bindSortByImportance(this.sortByImportance);
-        this.view.bindSortByCreated(this.sortByCreated);
-        this.view.bindShowFinished(this.filterFinished);
-        this.model.bindNotesChanged(this.onNotesChanged);
-    }
-
-    onNotesChanged = (notes) => {
-        this.view.render(notes);
-    }
-
-    handleDeleteNote = (id) => {
-        this.model.deleteNote(id);
-    }
-
-    handleAddNote = (note) => {
-        this.model.addNote(note);
-    }
-
-    sortByImportance = () => {
-        this.model.sortByImportance();
-    }
-
-    sortByCreated = () => {
-        this.model.sortByCreated();
-    }
-
-    filterFinished = () => {
-        this.model.filterFinished();
-    }
-}
-
-const app = new NoteController(new NoteModel(initialNotes), new NoteView());
