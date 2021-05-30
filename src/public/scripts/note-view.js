@@ -1,5 +1,3 @@
-import Bolt from '../assets/bolt.svg';
-// import Eleve from '../assets/eleve.svg';
 // eslint-disable-next-line max-classes-per-file
 
 export default class NoteView {
@@ -10,24 +8,56 @@ export default class NoteView {
         this.app.append(this.noteListView, this.createNoteView);
     }
 
-    bindDeleteNote(handler) {
-        this.noteListView.addEventListener('click', (event) => {
-            if (event.target.className === 'delete-button') {
+    bindEditHandler(handler) {
+        this.editHandler = handler;
+    }
+
+    bindNoteAction(handlerDelete, handlerGetNote) {
+        this.noteListView.addEventListener('click', (e) => {
+            if (e.target.className === 'delete-button') {
                 // eslint-disable-next-line radix
-                const id = parseInt(event.target.parentElement.parentElement.parentElement.id);
-                handler(id);
+                const id = parseInt(e.target.parentElement.parentElement.parentElement.id);
+                handlerDelete(id);
             }
+            if (e.target.className === 'edit-button') {
+                e.preventDefault();
+                // eslint-disable-next-line radix
+                const id = parseInt(e.target.parentElement.parentElement.parentElement.id);
+                const editableNote = handlerGetNote(id);
+                this.hideNoteView();
+                this.renderCreateNewNote(editableNote);
+                this.updateNoteHandler(editableNote.id);
+            }
+        });
+    }
+
+    updateNoteHandler(id) {
+        const saveButton = document.querySelector('#save-button-edit');
+        saveButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            const updatedData = {
+                id,
+                title: document.querySelector('#create-title').value,
+                description: document.querySelector('#create-description').value,
+                importance: document.querySelector('#create-importance').value,
+                date: document.querySelector('#create-date').value,
+            };
+            this.editHandler(updatedData);
         });
     }
 
     openCreateNoteHandler() {
         const createNoteButton = document.querySelector('#button-create');
         createNoteButton.addEventListener('click', () => {
-            const header = document.querySelector('Header');
-            header.style.display = 'none';
-            this.noteListView.style.display = 'none';
-            this.removeListItems();
-            this.createNoteView.style.display = 'flex';
+            this.hideNoteView();
+        });
+    }
+
+    updateImportanceHandler() {
+        const createImportance = document.querySelector('#create-importance');
+        createImportance.addEventListener('click', (e) => {
+            createImportance.innerHTML = (this.createImportanceSVG(e.target.dataset.importanceId));
+            createImportance.value = e.target.dataset.importanceId;
         });
     }
 
@@ -35,6 +65,8 @@ export default class NoteView {
         const saveButton = document.getElementById('save-button');
         saveButton.addEventListener('click', (e) => {
             e.preventDefault();
+            console.log('e:', e);
+            console.log('importance value create new: ', document.querySelector('#create-importance').value)
             const data = {
                 title: document.querySelector('#create-title').value,
                 description: document.querySelector('#create-description').value,
@@ -43,6 +75,7 @@ export default class NoteView {
             };
             handler(data);
             document.querySelector('.create-note').reset();
+            document.querySelector('#create-importance').innerHTML = this.createImportanceSVG(2);
         });
     }
 
@@ -50,21 +83,21 @@ export default class NoteView {
         const sortByImportanceButton = document.querySelector('#sort-importance');
         sortByImportanceButton.addEventListener('click', () => {
             handler();
-        })
+        });
     }
 
     bindSortByCreated(handler) {
         const sortByCreatedButton = document.querySelector('#sort-created');
         sortByCreatedButton.addEventListener('click', () => {
             handler();
-        })
+        });
     }
 
     bindShowFinished(handler) {
         const showFinishedButton = document.querySelector('#show-finished');
         showFinishedButton.addEventListener('click', () => {
             handler();
-        })
+        });
     }
 
     createElement(tag, className) {
@@ -83,9 +116,8 @@ export default class NoteView {
 
     createImportanceSVG(priority) {
         let importanceSVG = '';
-        for (let i = 0; i < priority; i++) {
-            const svg = `<object data="${Bolt}" type="image/svg+xml">`;
-            // const svg = '!';
+        for (let i = 0; i < 5; i++) {
+            const svg = `<img src="../assets/bolt.svg" alt="image/svg+xml" data-importance-id="${i + 1}" class="importance-svg ${i < priority ? 'bold' : ''}">`;
             importanceSVG += svg;
         }
         return importanceSVG;
@@ -110,12 +142,21 @@ export default class NoteView {
         this.noteListView.style.display = '';
     }
 
+    hideNoteView() {
+        const header = document.querySelector('Header');
+        header.style.display = 'none';
+        this.noteListView.style.display = 'none';
+        this.removeListItems();
+        this.createNoteView.style.display = '';
+    }
+
     renderNoteView(notes) {
         if (this.noteListView.firstChild) this.removeListItems();
         if (notes.length === 0) {
             this.noteListView.innerHTML = `
                 <div class="empty-notelist">
                     <h3>Create your first note by clicking "Create new note"!</h3>
+                    <img src="../assets/eleve.svg" alt="empty-desk" width="200px" height="200px"/>
                 </div>`;
         } else {
             notes.forEach((note) => {
@@ -132,13 +173,13 @@ export default class NoteView {
                         </div>
                         <div class="checkbox-form">
                             <label class="checkbox-label">
-                                <input id="checkbox ${note.id}" type="checkbox" ${note.complete ? "checked" : ""}>
+                                <input id="checkbox ${note.id}" type="checkbox" ${note.complete ? 'checked' : ''}>
                                 Finished
                             </label>
                         </div>
-                        <textarea class="textarea" readonly>${note.body}</textarea>
+                        <textarea class="textarea" readonly>${note.description}</textarea>
                         <div class="button-container">
-                            <button>Edit</button>
+                            <button class="edit-button">Edit</button>
                             <button class="delete-button">Delete</button>
                         </div>
                     </form>
@@ -149,31 +190,32 @@ export default class NoteView {
         }
     }
 
-    renderCreateNewNote() {
+    renderCreateNewNote(editNote) {
         const newNoteTemplate = `
         <div class="form-title-container">
             <label for="create-title">Title</label>
-            <input id="create-title" type="text">
+            <input id="create-title" type="text" value="${editNote && editNote.title ? editNote.title : ''}">
         </div>
         <div class="form-description-container">
             <label for="create-description">Description</label>
-            <textarea id="create-description"></textarea>     
+            <textarea id="create-description">${editNote && editNote.description ? editNote.description : ''}</textarea>     
         </div>
         <div class="form-importance-container">
             <label for="create-importance">Importance</label>
-            <div id="create-importance">${this.createImportanceSVG(5)}</div>
+            <div id="create-importance">${this.createImportanceSVG(editNote && editNote.importance ? editNote.importance : 2)}</div>
         </div>
         <div class="form-date-container">
             <label for="create-date">Done by:</label>
-            <input id="create-date" type="date">
+            <input id="create-date" type="date" value="${editNote && editNote.dueDay.date ? editNote.dueDay.date : ''}">
         </div>
-        <button id="save-button">Save</button>
+        <button id="save-button${editNote ? '-edit' : ''}" class="save-button" >Save</button>
         <div class="cancel-button">
             <button id="cancel-button">Cancel</button>
         </div>
         `;
 
-        if (!this.createNoteView.innerHTML) this.createNoteView.innerHTML += newNoteTemplate;
+        // if (!this.createNoteView.innerHTML) this.createNoteView.innerHTML += newNoteTemplate;
+        this.createNoteView.innerHTML = newNoteTemplate;
         this.createNoteView.style.display = '';
     }
 }

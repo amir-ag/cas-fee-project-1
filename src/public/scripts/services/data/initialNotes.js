@@ -8,7 +8,7 @@ const initialNotes = [
     "title": "implement html",
     "importance": 1,
     "complete": false,
-    "body": "test a couple of things",
+    "description": "test a couple of things",
     "created": "1620743338"
   },
   {
@@ -20,7 +20,7 @@ const initialNotes = [
     "title": "implement basic css",
     "importance": 5,
     "complete": true,
-    "body": "test a couple of things",
+    "description": "test a couple of things",
     "created": "1620829738"
   },
   {
@@ -32,7 +32,7 @@ const initialNotes = [
     "title": "generate notes in js",
     "importance": 5,
     "complete": false,
-    "body": "test a couple of things",
+    "description": "test a couple of things",
     "created": "1620916138"
   },
   {
@@ -44,19 +44,19 @@ const initialNotes = [
     "title": "implement event/observer functionality",
     "importance": 2,
     "complete": false,
-    "body": "test a couple of things",
+    "description": "test a couple of things",
     "created": "1621002538"
   },
   {
     "id": 5,
     "dueDay": {
       "weekday": "Saturday",
-      "date": "2021-06-1"
+      "date": "2021-06-01"
     },
     "title": "clean",
     "importance": 3,
     "complete": true,
-    "body": "test a couple of things",
+    "description": "test a couple of things",
     "created": "1621088938"
   }
 ]
