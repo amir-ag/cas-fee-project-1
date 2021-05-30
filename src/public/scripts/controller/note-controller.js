@@ -8,11 +8,13 @@ class NoteController {
         this.model = model;
         this.view = view;
 
+        this.onNotesChanged(this.model.notes);
         this.view.switchTheme();
         this.view.openCreateNoteHandler();
+        this.view.bindEditHandler(this.handleEditNote)
 
-        this.onNotesChanged(this.model.notes);
-        this.view.bindDeleteNote(this.handleDeleteNote);
+        this.view.updateImportanceHandler();
+        this.view.bindNoteAction(this.handleDeleteNote, this.handleGetNote);
         this.view.bindCreateNewNote(this.handleAddNote);
         this.view.bindSortByImportance(this.sortByImportance);
         this.view.bindSortByCreated(this.sortByCreated);
@@ -28,8 +30,17 @@ class NoteController {
         this.model.deleteNote(id);
     }
 
+    handleGetNote = (id) => {
+        return this.model.getNote(id)
+    }
+
     handleAddNote = (note) => {
         this.model.addNote(note);
+    }
+
+    handleEditNote = (note) => {
+        console.log(note)
+        this.model.editNote(note)
     }
 
     sortByImportance = () => {

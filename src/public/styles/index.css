@@ -85,8 +85,17 @@ button:hover {
 
 .header-sort > button {
     margin: 1rem;
-    padding: 15px 70px;
+    padding: 1rem 2rem;
     border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-sort > button > img {
+    height: 2rem;
+    width: 2rem;
+    margin-right: 1rem;
 }
 
 .header-sort > button:last-child {
@@ -110,8 +119,9 @@ main {
 
 .empty-notelist {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
+    flex-direction: column;
     height: 50%;
 }
 
@@ -169,6 +179,20 @@ main {
 .importance-container {
     display: flex;
     margin: 0;
+}
+
+.importance-svg {
+    width: 30px;
+    height: 30px;
+    filter: invert(0.9);
+}
+
+.importance-svg.bold {
+    filter: none;
+}
+
+#create-importance > .importance-svg:hover {
+    filter: none;
 }
 
 .button-container {
@@ -245,7 +269,7 @@ form > div > label {
     margin: 0;
 }
 
-#save-button {
+.save-button {
     width: 100%;
 }
 
