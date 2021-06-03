@@ -17,7 +17,7 @@ class NoteService {
             title,
             importance,
             complete: false,
-            body: description,
+            description,
             created: Date.now(),
         };
         this.notes.push(newNote);
@@ -46,6 +46,11 @@ class NoteService {
         return searchNote[0];
     }
 
+    toggleCompleted(id) {
+        const indexOfEditNote = this.notes.findIndex((note) => note.id === id);
+        this.notes[indexOfEditNote].complete = !this.notes[indexOfEditNote].complete;
+    }
+
     sortByImportance() {
         this.notes.sort((a, b) => b.importance - a.importance);
         this.onNotesChanged(this.notes);
@@ -63,6 +68,10 @@ class NoteService {
 
     bindNotesChanged(callback) {
         this.onNotesChanged = callback;
+    }
+
+    returnNotes() {
+        this.onNotesChanged(this.notes);
     }
 }
 
