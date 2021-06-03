@@ -8,18 +8,26 @@ class NoteController {
         this.model = model;
         this.view = view;
 
-        this.onNotesChanged(this.model.notes);
-        this.view.switchTheme();
-        this.view.openCreateNoteHandler();
-        this.view.bindEditHandler(this.handleEditNote)
+        window.addEventListener('DOMContentLoaded', (event) => {
+            this.onNotesChanged(this.model.notes);
+            this.view.switchTheme();
+            this.view.openCreateNoteHandler();
+            this.view.cancelButton(this.renderNoteView);
+            this.view.bindEditHandler(this.handleEditNote)
 
-        this.view.updateImportanceHandler();
-        this.view.bindNoteAction(this.handleDeleteNote, this.handleGetNote);
-        this.view.bindCreateNewNote(this.handleAddNote);
-        this.view.bindSortByImportance(this.sortByImportance);
-        this.view.bindSortByCreated(this.sortByCreated);
-        this.view.bindShowFinished(this.filterFinished);
-        this.model.bindNotesChanged(this.onNotesChanged);
+            this.view.updateImportanceHandler();
+            this.view.bindNoteAction(this.handleDeleteNote, this.handleGetNote, this.toggleCompleted);
+            this.view.bindCreateNewNote(this.handleAddNote);
+            this.view.bindSortByImportance(this.sortByImportance);
+            this.view.bindSortByCreated(this.sortByCreated);
+            this.view.bindShowFinished(this.filterFinished);
+            this.model.bindNotesChanged(this.onNotesChanged);
+        });
+    }
+
+    renderNoteView = () => {
+        this.model.returnNotes();
+        this.view.bindEditHandler(this.renderNoteView)
     }
 
     onNotesChanged = (notes) => {
@@ -31,16 +39,23 @@ class NoteController {
     }
 
     handleGetNote = (id) => {
-        return this.model.getNote(id)
+        return this.model.getNote(id);
+    }
+
+    toggleCompleted = (id) => {
+        this.model.toggleCompleted(id);
     }
 
     handleAddNote = (note) => {
         this.model.addNote(note);
+        this.view.bindCreateNewNote(this.handleAddNote);
+        this.view.updateImportanceHandler();
     }
 
     handleEditNote = (note) => {
-        console.log(note)
-        this.model.editNote(note)
+        this.model.editNote(note);
+        this.view.bindEditHandler(this.handleEditNote);
+        this.view.updateImportanceHandler();
     }
 
     sortByImportance = () => {

@@ -12,7 +12,15 @@ export default class NoteView {
         this.editHandler = handler;
     }
 
-    bindNoteAction(handlerDelete, handlerGetNote) {
+    cancelButton(handler) {
+        const cancelButton = document.querySelector('#cancel-button');
+        cancelButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            handler();
+        });
+    }
+
+    bindNoteAction(handlerDelete, handlerGetNote, toggleCompleted) {
         this.noteListView.addEventListener('click', (e) => {
             if (e.target.className === 'delete-button') {
                 // eslint-disable-next-line radix
@@ -28,10 +36,23 @@ export default class NoteView {
                 this.renderCreateNewNote(editableNote);
                 this.updateNoteHandler(editableNote.id);
             }
+            if (e.target.className === 'checkbox') {
+                // eslint-disable-next-line radix
+                const id = parseInt(e.target.parentElement.parentElement.parentElement.id);
+                toggleCompleted(id);
+            }
+        });
+    }
+
+    openCreateNoteHandler() {
+        const createNoteButton = document.querySelector('#button-create');
+        createNoteButton.addEventListener('click', () => {
+            this.hideNoteView();
         });
     }
 
     updateNoteHandler(id) {
+        this.updateImportanceHandler();
         const saveButton = document.querySelector('#save-button-edit');
         saveButton.addEventListener('click', (e) => {
             e.preventDefault();
@@ -43,13 +64,6 @@ export default class NoteView {
                 date: document.querySelector('#create-date').value,
             };
             this.editHandler(updatedData);
-        });
-    }
-
-    openCreateNoteHandler() {
-        const createNoteButton = document.querySelector('#button-create');
-        createNoteButton.addEventListener('click', () => {
-            this.hideNoteView();
         });
     }
 
@@ -65,8 +79,6 @@ export default class NoteView {
         const saveButton = document.getElementById('save-button');
         saveButton.addEventListener('click', (e) => {
             e.preventDefault();
-            console.log('e:', e);
-            console.log('importance value create new: ', document.querySelector('#create-importance').value)
             const data = {
                 title: document.querySelector('#create-title').value,
                 description: document.querySelector('#create-description').value,
@@ -172,10 +184,8 @@ export default class NoteView {
                             <div class="importance-container">${this.createImportanceSVG(note.importance)}</div>
                         </div>
                         <div class="checkbox-form">
-                            <label class="checkbox-label">
-                                <input id="checkbox ${note.id}" type="checkbox" ${note.complete ? 'checked' : ''}>
-                                Finished
-                            </label>
+                            <input id="checkbox ${note.id}" class="checkbox" type="checkbox" ${note.complete ? 'checked' : ''}>
+                            <label class="checkbox-label" for="checkbox ${note.id}">Finished</label>
                         </div>
                         <textarea class="textarea" readonly>${note.description}</textarea>
                         <div class="button-container">
@@ -185,12 +195,13 @@ export default class NoteView {
                     </form>
                 </li>
                 `;
-                this.noteListView.innerHTML += noteTemplate; //check if refactor necessary
+                this.noteListView.innerHTML += noteTemplate;
             });
         }
     }
 
     renderCreateNewNote(editNote) {
+        this.createNoteView.innerHTML = '';
         const newNoteTemplate = `
         <div class="form-title-container">
             <label for="create-title">Title</label>
