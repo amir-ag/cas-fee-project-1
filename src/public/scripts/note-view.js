@@ -1,10 +1,11 @@
 // eslint-disable-next-line max-classes-per-file
+import createElement from './utils.js';
 
 export default class NoteView {
     constructor() {
         this.app = document.querySelector('main');
-        this.notesView = this.createElement('div', 'notes-view');
-        this.createNoteView = this.createElement('form', 'create-note');
+        this.notesView = createElement('div', 'notes-view');
+        this.createNoteView = createElement('div', 'create-note-container');
         this.app.append(this.notesView, this.createNoteView);
     }
 
@@ -14,7 +15,7 @@ export default class NoteView {
 
     cancelButton() {
         const cancelButton = document.querySelector('#cancel-button');
-        cancelButton.addEventListener('click', (e) => {
+        cancelButton.addEventListener('click', () => {
             this.notesView.style.display = '';
             this.createNoteView.style.display = 'none';
         });
@@ -46,15 +47,6 @@ export default class NoteView {
         });
     }
 
-    // openCreateNoteHandler() {
-    //     const createNoteButton = document.querySelector('#button-create');
-    //     createNoteButton.addEventListener('click', () => {
-    //         this.hideNoteView();
-    //         // document.querySelector('.create-note').reset();
-    //         // this.createNoteView.reset();
-    //     });
-    // }
-
     bindHeaderTopHandler() {
         const headerTop = document.querySelector('.header-top');
         headerTop.addEventListener('click', (e) => {
@@ -69,7 +61,6 @@ export default class NoteView {
 
     updateNoteHandler(id) {
         this.updateImportanceHandler();
-        // const saveButton = document.querySelector('#save-button-edit');
         const submitForm = document.querySelector('.create-note');
         submitForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -89,7 +80,6 @@ export default class NoteView {
     }
 
     bindSaveNewNote(handler) {
-        // const saveButton = document.querySelector('#save-button');
         const submitForm = document.querySelector('.create-note');
         submitForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -131,14 +121,6 @@ export default class NoteView {
                 filterFinished();
             }
         });
-    }
-
-    createElement(tag, className) {
-        const element = document.createElement(tag);
-        if (className) {
-            element.classList.add(className);
-        }
-        return element;
     }
 
     // removeListItems() {
@@ -229,26 +211,28 @@ export default class NoteView {
     renderCreateNewNote(editNote) {
         // this.createNoteView.innerHTML = '';
         this.createNoteView.innerHTML = `
-        <div class="form-title-container">
-            <label for="create-title">Title</label>
-            <input id="create-title" type="text" required value="${editNote && editNote.title ? editNote.title : ''}">
-        </div>
-        <div class="form-description-container">
-            <label for="create-description">Description</label>
-            <textarea id="create-description" required>${editNote && editNote.description ? editNote.description : ''}</textarea>     
-        </div>
-        <div class="form-importance-container">
-            <label for="create-importance">Importance</label>
-            <div id="create-importance">${this.createImportanceSVG(editNote && editNote.importance ? editNote.importance : 2)}</div>
-        </div>
-        <div class="form-date-container">
-            <label for="create-date">Done by:</label>
-            <input id="create-date" type="date" required value="${editNote && editNote.dueDay.date ? editNote.dueDay.date : ''}">
-        </div>
-        <button type="submit" id="save-button${editNote ? '-edit' : ''}" class="save-button">Save</button>
-        <div class="cancel-button">
-            <button type="button" id="cancel-button">Cancel</button>
-        </div>
+        <form class="create-note">
+            <div class="form-title-container">
+                <label for="create-title">Title</label>
+                <input id="create-title" type="text" required value="${editNote && editNote.title ? editNote.title : ''}">
+            </div>
+            <div class="form-description-container">
+                <label for="create-description">Description</label>
+                <textarea id="create-description" required>${editNote && editNote.description ? editNote.description : ''}</textarea>     
+            </div>
+            <div class="form-importance-container">
+                <label for="create-importance">Importance</label>
+                <div id="create-importance">${this.createImportanceSVG(editNote && editNote.importance ? editNote.importance : 2)}</div>
+            </div>
+            <div class="form-date-container">
+                <label for="create-date">Done by:</label>
+                <input id="create-date" type="date" required value="${editNote && editNote.dueDay.date ? editNote.dueDay.date : ''}">
+            </div>
+            <button type="submit" id="save-button${editNote ? '-edit' : ''}" class="save-button">Save</button>
+            <div class="cancel-button">
+                <button type="button" id="cancel-button">Cancel</button>
+            </div>
+        </form>
         `;
     }
 }

@@ -254,6 +254,10 @@ main {
     outline: none;
 }
 
+.create-note-container {
+    height: 100%;
+}
+
 .create-note {
     height: 100%;
     display: flex;
