@@ -7,7 +7,10 @@ const initialNotes = [
     },
     "title": "implement html",
     "importance": 1,
-    "complete": false,
+    "complete": {
+      "done": true,
+      "timestamp": 1237721965,
+    },
     "description": "test a couple of things",
     "created": "1620743338"
   },
@@ -19,7 +22,10 @@ const initialNotes = [
     },
     "title": "implement basic css",
     "importance": 5,
-    "complete": true,
+    "complete": {
+      "done": false,
+      "timestamp": 0,
+    },
     "description": "test a couple of things",
     "created": "1620829738"
   },
@@ -31,7 +37,10 @@ const initialNotes = [
     },
     "title": "generate notes in js",
     "importance": 5,
-    "complete": false,
+    "complete": {
+      "done": true,
+      "timestamp": 1521355190,
+    },
     "description": "test a couple of things",
     "created": "1620916138"
   },
@@ -43,7 +52,10 @@ const initialNotes = [
     },
     "title": "implement event/observer functionality",
     "importance": 2,
-    "complete": false,
+    "complete": {
+      "done": true,
+      "timestamp": 1720103903,
+    },
     "description": "test a couple of things",
     "created": "1621002538"
   },
@@ -55,7 +67,10 @@ const initialNotes = [
     },
     "title": "clean",
     "importance": 3,
-    "complete": true,
+    "complete": {
+      "done": false,
+      "timestamp": 0,
+    },
     "description": "test a couple of things",
     "created": "1621088938"
   }

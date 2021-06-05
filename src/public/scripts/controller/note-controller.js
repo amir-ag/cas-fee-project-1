@@ -2,36 +2,35 @@ import NoteService from "../services/note-service.js";
 import NoteView from "../note-view.js";
 import initialNotes from '../services/data/initialNotes.js';
 
-
 class NoteController {
     constructor(model, view) {
         this.model = model;
         this.view = view;
 
         window.addEventListener('DOMContentLoaded', (event) => {
+            this.render(this.model.notes);
             this.onNotesChanged(this.model.notes);
-            this.view.switchTheme();
-            this.view.openCreateNoteHandler();
-            this.view.cancelButton(this.renderNoteView);
-            this.view.bindEditHandler(this.handleEditNote)
+
+            this.view.bindEditHandler(this.handleEditNote);
+            this.view.cancelButton();
+            this.view.bindHeaderTopHandler();
+            this.view.bindSortEvents(this.sortByImportance, this.sortByCreated, this.sortByCompleted, this.filterFinished)
 
             this.view.updateImportanceHandler();
             this.view.bindNoteAction(this.handleDeleteNote, this.handleGetNote, this.toggleCompleted);
-            this.view.bindCreateNewNote(this.handleAddNote);
-            this.view.bindSortByImportance(this.sortByImportance);
-            this.view.bindSortByCreated(this.sortByCreated);
-            this.view.bindShowFinished(this.filterFinished);
+            this.view.bindSaveNewNote(this.handleAddNote);
+
             this.model.bindNotesChanged(this.onNotesChanged);
         });
     }
 
-    renderNoteView = () => {
-        this.model.returnNotes();
-        this.view.bindEditHandler(this.renderNoteView)
+    render = (notes) => {
+        this.view.render(notes)
     }
 
     onNotesChanged = (notes) => {
-        this.view.render(notes);
+        // adapt naming
+        this.view.renderNotesView(notes);
     }
 
     handleDeleteNote = (id) => {
@@ -48,8 +47,8 @@ class NoteController {
 
     handleAddNote = (note) => {
         this.model.addNote(note);
-        this.view.bindCreateNewNote(this.handleAddNote);
-        this.view.updateImportanceHandler();
+        // this.view.bindSaveNewNote(this.handleAddNote);
+        // this.view.updateImportanceHandler();
     }
 
     handleEditNote = (note) => {
@@ -64,6 +63,10 @@ class NoteController {
 
     sortByCreated = () => {
         this.model.sortByCreated();
+    }
+
+    sortByCompleted = () => {
+        this.model.sortByCompleted();
     }
 
     filterFinished = () => {
