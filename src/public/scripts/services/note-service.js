@@ -13,10 +13,16 @@ class NoteService {
     addNote({date = 0, title = '', importance = 1, description = ''}) {
         const newNote = {
             id: this.notes.length > 0 ? this.notes[this.notes.length - 1].id + 1 : 1,
-            dueDay: {weekday: this.createDate(date), date},
+            dueDay: {
+                weekday: this.createDate(date),
+                date,
+            },
             title,
             importance,
-            complete: false,
+            complete: {
+                done: false,
+                timestamp: 0,
+            },
             description,
             created: Date.now(),
         };
@@ -48,7 +54,17 @@ class NoteService {
 
     toggleCompleted(id) {
         const indexOfEditNote = this.notes.findIndex((note) => note.id === id);
-        this.notes[indexOfEditNote].complete = !this.notes[indexOfEditNote].complete;
+        if (this.notes[indexOfEditNote].complete.done) {
+            this.notes[indexOfEditNote].complete = {
+                done: false,
+                timestamp: 0,
+            };
+        } else {
+            this.notes[indexOfEditNote].complete = {
+                done: true,
+                timestamp: Date.now(),
+            };
+        }
     }
 
     sortByImportance() {
@@ -61,17 +77,18 @@ class NoteService {
         this.onNotesChanged(this.notes);
     }
 
+    sortByCompleted() {
+        this.notes.sort((a, b) => b.complete.timestamp - a.complete.timestamp);
+        this.onNotesChanged(this.notes);
+    }
+
     filterFinished() {
-        const finishedNotes = this.notes.filter((note) => note.complete);
+        const finishedNotes = this.notes.filter((note) => note.complete.done);
         this.onNotesChanged(finishedNotes);
     }
 
     bindNotesChanged(callback) {
         this.onNotesChanged = callback;
-    }
-
-    returnNotes() {
-        this.onNotesChanged(this.notes);
     }
 }
 
