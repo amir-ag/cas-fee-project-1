@@ -195,7 +195,7 @@ export default class NoteView {
                             <input id="checkbox ${note.id}" class="checkbox" type="checkbox" ${note.complete.done ? 'checked' : ''}>
                             <label class="checkbox-label" for="checkbox ${note.id}">Finished</label>
                         </div>
-                        <textarea class="textarea" readonly>${note.description}</textarea>
+                        <div class="textarea">${note.description}</div>
                         <div class="button-container">
                             <button class="edit-button">Edit</button>
                             <button class="delete-button">Delete</button>

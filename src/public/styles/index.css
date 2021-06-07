@@ -7,16 +7,12 @@
 
 :root {
     --outer-background: #f5f5f5;
-
-    /* --background: #63BCE5; */
-    --background: #3778c2;
+    --background: linear-gradient(#a18d95, #4c3638);
     --li-background: #f5f5f5;
     --button-color: #000;
-    --button-background-color: #f5f5f5;
-    --button-hover: #28559a;
+    --button-background-color: #87445cff;
+    --button-hover: #6c3347;
     --textarea-background-color: white;
-
-    /* --box-shadow: 20px 12px 33px #b9b3b375; */
     --box-shadow: 20px 12px 33px rgba(16, 15, 15, 0.75);
 }
 
@@ -33,13 +29,15 @@
 
 html {
     height: 100%;
-    /*font-family: Gill Sans Extrabold, sans-serif;*/
 }
 
 body {
     display: flex;
     justify-content: center;
     align-items: center;
+    /*background-image: url('../assets/desk.jpeg');*/
+    /*background-repeat: no-repeat;*/
+    /*background-size: cover;*/
     height: 100%;
     background-color: var(--outer-background);
 }
@@ -48,7 +46,7 @@ body {
     width: 80vw;
     max-width: 1500px;
     height: 95vh;
-    background-color: var(--background);
+    background-image: var(--background);
     border-radius: 20px;
     overflow: hidden;
 }
@@ -168,7 +166,7 @@ main {
     margin-top: 1rem;
     background-color: var(--li-background);
     box-shadow: var(--box-shadow);
-    padding-bottom: 10px;
+    padding-bottom: 1rem;
     border-radius: 10px;
     border: 1px solid #bfbfbf;
     display: grid;
@@ -176,6 +174,7 @@ main {
     grid-template-rows: 1fr 1fr;
     justify-items: center;
     align-items: center;
+    background-image: url('../assets/desk.jpeg');
     grid-template-areas:
         'due-day title-container title-container button-container'
         'checkbox-form textarea textarea button-container';
@@ -199,11 +198,19 @@ main {
     grid-area: title-container;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-left: 1rem;
+    background: #ffc;
     width: 100%;
+    height: 100%;
+    box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
 }
 
 .title-container h2 {
     margin: 0;
+    font-family: 'Reenie Beanie', cursive;
+    font-size: 3rem;
 }
 
 .importance-container {
@@ -246,16 +253,26 @@ main {
 }
 
 .textarea {
+    font-family: 'Reenie Beanie', cursive;
+    font-size: 2rem;
     grid-area: textarea;
-    resize: none;
+    padding-left: 1rem;
+    padding-right: 0.5rem;
     width: 100%;
     height: 100%;
-    background-color: var(--textarea-background-color);
-    outline: none;
+    background-color: #ffc;
+    overflow-y: scroll;
+    box-shadow: 5px 11px 7px rgba(33, 33, 33, 0.7);
+}
+
+.textarea::-webkit-scrollbar {
+    display: none;
 }
 
 .create-note-container {
     height: 100%;
+    background-image: url("../assets/desk.jpeg");
+    background-size: cover;
 }
 
 .create-note {
@@ -299,7 +316,9 @@ form > div > label {
     height: 100%;
     border-radius: 5px;
     padding: 1rem;
-    background-color: var(--textarea-background-color);
+    /*background-color: var(--textarea-background-color);*/
+    background-color: #ffc;
+    box-shadow: 5px 11px 7px rgba(33, 33, 33, 0.7);
 }
 
 #create-importance {
