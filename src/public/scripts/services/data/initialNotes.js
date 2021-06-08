@@ -11,7 +11,8 @@ const initialNotes = [
       "done": true,
       "timestamp": 1237721965,
     },
-    "description": "test a couple of things",
+    "description": "\n" +
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac iaculis massa. Aliquam consectetur sapien euismod fringilla feugiat. Curabitur ex sapien, suscipit nec suscipit feugiat, aliquet et diam. Phasellus et scelerisque orci, ut cursus massa. Duis id leo hendrerit, dapibus dui sed, aliquam diam. Praesent quis volutpat velit. Phasellus et scelerisque orci, ut cursus massa.  Duis id leo hendrerit, dapibus dui sed, aliquam diam.",
     "created": "1620743338"
   },
   {

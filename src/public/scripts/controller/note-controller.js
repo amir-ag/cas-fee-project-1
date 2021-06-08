@@ -9,17 +9,13 @@ class NoteController {
 
         window.addEventListener('DOMContentLoaded', (event) => {
             this.render(this.model.notes);
-            this.onNotesChanged(this.model.notes);
-
-            this.view.bindEditHandler(this.handleEditNote);
+            this.view.bindFormActions(this.handleEditNote, this.handleAddNote);
+            this.view.bindNoteActions(this.handleDeleteNote, this.handleGetNote, this.handleToggleCompleted);
+            this.view.bindAddNote(this.handleAddNote);
+            this.view.bindSortEvents(this.handleSortByImportance, this.handleSortByCreated, this.handleSortByCompleted, this.handleFilterFinished)
+            this.view.headerTopActions();
             this.view.cancelButton();
-            this.view.bindHeaderTopHandler();
-            this.view.bindSortEvents(this.sortByImportance, this.sortByCreated, this.sortByCompleted, this.filterFinished)
-
-            this.view.updateImportanceHandler();
-            this.view.bindNoteAction(this.handleDeleteNote, this.handleGetNote, this.toggleCompleted);
-            this.view.bindSaveNewNote(this.handleAddNote);
-
+            this.view.updateImportanceBar();
             this.model.bindNotesChanged(this.onNotesChanged);
         });
     }
@@ -29,8 +25,7 @@ class NoteController {
     }
 
     onNotesChanged = (notes) => {
-        // adapt naming
-        this.view.renderNotesView(notes);
+        this.view.showNotesTemplate(notes);
     }
 
     handleDeleteNote = (id) => {
@@ -41,35 +36,32 @@ class NoteController {
         return this.model.getNote(id);
     }
 
-    toggleCompleted = (id) => {
+    handleToggleCompleted = (id) => {
         this.model.toggleCompleted(id);
     }
 
     handleAddNote = (note) => {
         this.model.addNote(note);
-        // this.view.bindSaveNewNote(this.handleAddNote);
-        // this.view.updateImportanceHandler();
     }
 
     handleEditNote = (note) => {
         this.model.editNote(note);
-        this.view.bindEditHandler(this.handleEditNote);
-        this.view.updateImportanceHandler();
+        this.view.updateImportanceBar();
     }
 
-    sortByImportance = () => {
+    handleSortByImportance = () => {
         this.model.sortByImportance();
     }
 
-    sortByCreated = () => {
+    handleSortByCreated = () => {
         this.model.sortByCreated();
     }
 
-    sortByCompleted = () => {
+    handleSortByCompleted = () => {
         this.model.sortByCompleted();
     }
 
-    filterFinished = () => {
+    handleFilterFinished = () => {
         this.model.filterFinished();
     }
 }
