@@ -7,10 +7,13 @@
 
 :root {
     --outer-background: #f5f5f5;
-    --background: linear-gradient(#a18d95, #4c3638);
+    /*--background: linear-gradient(#d4b68e, #4c3638);*/
+    /*--background: linear-gradient(#c79081, #dfa579);*/
+    --background: linear-gradient(#decba4, #3e5151);
+
     --li-background: #f5f5f5;
     --button-color: #000;
-    --button-background-color: #87445cff;
+    /*--button-background-color: #978ea0;*/
     --button-hover: #6c3347;
     --textarea-background-color: white;
     --box-shadow: 20px 12px 33px rgba(16, 15, 15, 0.75);
@@ -18,7 +21,7 @@
 
 .alternative {
     --outer-background: #1f2933;
-    --background: #3e4c59;
+    --background: linear-gradient(#141e30, #243b55);
     --li-background: #cbd2d9;
     --button-color: #0e6f65;
     --button-background-color: #1ddecb;
@@ -35,20 +38,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    /*background-image: url('../assets/desk.jpeg');*/
-    /*background-repeat: no-repeat;*/
-    /*background-size: cover;*/
     height: 100%;
     background-color: var(--outer-background);
-}
-
-.background-layer {
-    width: 80vw;
-    max-width: 1500px;
-    height: 95vh;
-    background-image: var(--background);
-    border-radius: 20px;
-    overflow: hidden;
 }
 
 .notes-view {
@@ -65,13 +56,9 @@ body {
     border-top-right-radius: 20px;
 }
 
-.header-top button {
-    margin: 1rem;
-}
-
 button {
     background-color: var(--button-background-color);
-    border: 2px solid var(--button-color);
+    border: 1px solid var(--button-color);
     color: black;
     padding: 15px 32px;
     text-align: center;
@@ -80,6 +67,10 @@ button {
     font-size: 16px;
     transition-duration: 0.4s;
     border-radius: 5px;
+}
+
+.header-top button {
+    margin: 1rem;
 }
 
 button:hover {
@@ -120,7 +111,12 @@ button:hover {
 }
 
 main {
-    height: 100%;
+    width: 80vw;
+    max-width: 1500px;
+    height: 95vh;
+    background-image: var(--background);
+    border-radius: 20px;
+    overflow: hidden;
 }
 
 .note-list {
@@ -175,6 +171,7 @@ main {
     justify-items: center;
     align-items: center;
     background-image: url('../assets/desk.jpeg');
+    background-size: cover;
     grid-template-areas:
         'due-day title-container title-container button-container'
         'checkbox-form textarea textarea button-container';
@@ -192,6 +189,8 @@ main {
 .dueday-container > label {
     width: 100%;
     margin-bottom: 1rem;
+    font-size: 1.5rem;
+    text-decoration: underline;
 }
 
 .title-container {
@@ -235,17 +234,30 @@ main {
 .button-container {
     grid-area: button-container;
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    align-items: center;
     justify-content: space-evenly;
     height: 100%;
     width: 100%;
 }
 
 .button-container button {
-    height: 50%;
-    width: 25%;
+    height: 4rem;
+    width: 9rem;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.button-container button:last-child:hover {
+    background-color: #d11a2a;
+}
+
+.button-container button img {
+    height: 1.5rem;
+    width: 1.5rem;
 }
 
 .checkbox-form {
@@ -297,28 +309,57 @@ form > div > label {
     width: 20%;
 }
 
-.form-description-container {
-    height: 30%;
+.form-content-container {
+    height: 40%;
+}
+
+.form-content-labels {
+    margin: 0;
+    height: 100%;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.form-content-labels > label {
+    margin: 1rem 0 2rem 0;
+}
+
+.form-content {
+    margin: 0;
+    height: 100%;
+    width: 100%;
 }
 
 #create-title {
     margin: 0;
     width: 70%;
-    height: 2rem;
-    border-radius: 5px;
+    height: 15%;
+    border-radius: 5px 5px 0 0;
     padding-left: 1rem;
-    background-color: var(--textarea-background-color);
+    background-color: #ffc;
+    box-shadow: 5px 12px 7px rgba(33, 33, 33, 0.7);
+    outline: none;
+    border: none;
+    border-bottom: 1px dashed grey;
+    font-family: 'Reenie Beanie', cursive;
+    font-size: 3rem;
 }
 
 #create-description {
     margin: 0;
     width: 70%;
-    height: 100%;
-    border-radius: 5px;
+    height: 85%;
+    border-radius: 0 0 5px 5px;
     padding: 1rem;
-    /*background-color: var(--textarea-background-color);*/
     background-color: #ffc;
     box-shadow: 5px 11px 7px rgba(33, 33, 33, 0.7);
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: 'Reenie Beanie', cursive;
+    font-size: 2rem;
 }
 
 #create-importance {
@@ -332,6 +373,7 @@ form > div > label {
 
 .save-button {
     width: 100%;
+    background-color: #925a6c;
 }
 
 .cancel-button {
