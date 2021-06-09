@@ -1,4 +1,4 @@
-import {createElement, createImportanceSVG} from './utils.js';
+import {createElement, createImportanceSVG, getRandomColor} from './utils.js';
 
 export default class NoteView {
     constructor() {
@@ -159,6 +159,7 @@ export default class NoteView {
         } else {
             let noteListItems = '';
             notes.forEach((note) => {
+                const color = getRandomColor();
                 noteListItems += `
                 <li id="${note.id}" class="note-item">
                     <form class="edit-note">
@@ -166,7 +167,7 @@ export default class NoteView {
                             <label for="dueDay ${note.id}">Get it done by: </label>
                             <output id="dueDay ${note.id}" class="due-day">${note.dueDay.weekday}, ${note.dueDay.date}</output>
                         </div>
-                        <div class="title-container">
+                        <div class="title-container ${color}">
                             <h2>${note.title}</h2>
                             <div class="importance-container">${createImportanceSVG(note.importance)}</div>
                         </div>
@@ -174,7 +175,7 @@ export default class NoteView {
                             <input id="checkbox ${note.id}" class="checkbox" type="checkbox" ${note.complete.done ? 'checked' : ''}>
                             <label class="checkbox-label" for="checkbox ${note.id}">Finished</label>
                         </div>
-                        <div class="textarea">${note.description}</div>
+                        <div class="textarea ${color}">${note.description}</div>
                         <div class="button-container">
                             <button class="edit-button">
                                 <img src="../assets/edit.svg" alt="edit"/>
