@@ -10,19 +10,18 @@
     /*--background: linear-gradient(#d4b68e, #4c3638);*/
     /*--background: linear-gradient(#c79081, #dfa579);*/
     --background: linear-gradient(#decba4, #3e5151);
-
-    --li-background: #f5f5f5;
     --button-color: #6c3347;
-    /*--button-background-color: #978ea0;*/
     --button-hover: #6c3347;
     --textarea-background-color: white;
     --box-shadow: 20px 12px 33px rgba(16, 15, 15, 0.75);
+    --post-it-pink: #f9a9c6;
+    --post-it-yellow: #ffc;
+    --post-it-blue: #6ecef6;
 }
 
 .alternative {
     --outer-background: #1f2933;
     --background: linear-gradient(#141e30, #243b55);
-    --li-background: #cbd2d9;
     --button-color: #0e6f65;
     --button-background-color: #1ddecb;
     --button-hover: #12877c;
@@ -155,12 +154,15 @@ main {
     align-items: center;
 }
 
+/*.note-item:nth-child(even) .edit-note .title-container {*/
+/*    background: #F9A9C6;*/
+/*}*/
+
 .edit-note {
     height: 20vh;
     width: 80%;
     margin-bottom: 2rem;
     margin-top: 1rem;
-    background-color: var(--li-background);
     box-shadow: var(--box-shadow);
     padding-bottom: 1rem;
     border-radius: 10px;
@@ -272,7 +274,6 @@ main {
     padding-right: 0.5rem;
     width: 100%;
     height: 100%;
-    background-color: #ffc;
     overflow-y: scroll;
     box-shadow: 5px 11px 7px rgba(33, 33, 33, 0.7);
 }
@@ -338,7 +339,7 @@ form > div > label {
     height: 15%;
     border-radius: 5px 5px 0 0;
     padding-left: 1rem;
-    background-color: #ffc;
+    background-color: var(--post-it-yellow);
     box-shadow: 5px 12px 7px rgba(33, 33, 33, 0.7);
     outline: none;
     border: none;
@@ -353,7 +354,7 @@ form > div > label {
     height: 85%;
     border-radius: 0 0 5px 5px;
     padding: 1rem;
-    background-color: #ffc;
+    background-color: var(--post-it-yellow);
     box-shadow: 5px 11px 7px rgba(33, 33, 33, 0.7);
     border: none;
     outline: none;
@@ -383,4 +384,16 @@ form > div > label {
 
 #cancel-button {
     margin: 0;
+}
+
+[class*="pink"] {
+    background: var(--post-it-pink);
+}
+
+[class*="yellow"] {
+    background: var(--post-it-yellow);
+}
+
+[class*="blue"] {
+    background: var(--post-it-blue);
 }

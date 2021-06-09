@@ -21,3 +21,8 @@ export function createDate(date) {
     const weekDay = new Date(splitDate[0], (splitDate[1] - 1), splitDate[2]);
     return weekDays[weekDay.getDay()];
 }
+
+export function getRandomColor() {
+    const colors = ['pink', 'yellow', 'blue'];
+    return colors[Math.floor(Math.random() * 3)];
+}
