@@ -15,6 +15,7 @@ class Note {
         };
         this.description = note.description;
         this.created = Date.now();
+        this.color = note.color;
     }
 }
 
