@@ -19,6 +19,8 @@
     "object-curly-spacing": "off",
     "linebreak-style": "off",
     "radix": "off",
-    "max-classes-per-file": "off"
+    "max-classes-per-file": "off",
+    "import/no-named-as-default": "off",
+    "no-underscore-dangle": "off"
   }
 }

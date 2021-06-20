@@ -1,83 +1,57 @@
-import {createDate} from '../utils.js';
+import httpService from './http-service.js';
 
 class NoteService {
-    constructor(initialNotes) {
-        this.notes = initialNotes;
+
+    getNotes() {
+        return httpService.ajax('GET', '/notes', undefined);
     }
 
-    addNote({date = 0, title = '', importance = 1, description = ''}) {
-        const newNote = {
-            id: this.notes.length > 0 ? this.notes[this.notes.length - 1].id + 1 : 1,
-            dueDay: {
-                weekday: createDate(date),
-                date,
-            },
-            title,
-            importance,
-            complete: {
-                done: false,
-                timestamp: 0,
-            },
-            description,
-            created: Date.now(),
-        };
-        this.notes.push(newNote);
-        this.onNotesChanged(this.notes);
+    async addNote(data) {
+        httpService.ajax('POST', '/notes', data);
+        this.onNotesChanged(await this.getNotes());
     }
 
-    editNote(editNote) {
-        const indexOfEditNote = this.notes.findIndex((note) => note.id === editNote.id);
-        this.notes[indexOfEditNote].title = editNote.title;
-        this.notes[indexOfEditNote].description = editNote.description;
-        if (editNote.importance) {
-            this.notes[indexOfEditNote].importance = editNote.importance;
-        }
-        this.notes[indexOfEditNote].dueDay.date = editNote.date;
-        this.onNotesChanged(this.notes);
+    async getNote(id) {
+        return httpService.ajax('GET', `/notes/${id}/`, undefined);
     }
 
-    deleteNote(id) {
-        this.notes = this.notes.filter((note) => note.id !== id);
-        this.onNotesChanged(this.notes);
+    async deleteNote(id) {
+        httpService.ajax('DELETE', `/notes/${id}/`, undefined);
+        this.onNotesChanged(await this.getNotes());
     }
 
-    getNote(id) {
-        const searchNote = this.notes.filter((note) => note.id === id);
-        return searchNote[0];
+    async editNote(editNote) {
+        httpService.ajax('PATCH', `/notes/${editNote._id}`, editNote);
+        this.onNotesChanged(await this.getNotes());
     }
 
-    toggleCompleted(id) {
-        const indexOfEditNote = this.notes.findIndex((note) => note.id === id);
-        if (this.notes[indexOfEditNote].complete.done) {
-            this.notes[indexOfEditNote].complete = {
-                done: false,
-                timestamp: 0,
-            };
-        } else {
-            this.notes[indexOfEditNote].complete = {
-                done: true,
-                timestamp: Date.now(),
-            };
-        }
+    async toggleCompleted(id) {
+        httpService.ajax('PATCH', `/notes/complete/${id}`, undefined)
+            .then(() => this.getNotes())
+            .then((res) => this.onNotesChanged(res));
     }
 
-    sortByImportance() {
-        this.notes.sort((a, b) => b.importance - a.importance);
-        this.onNotesChanged(this.notes);
+    async sortByImportance() {
+        const notes = await httpService.ajax('GET', '/notes', undefined);
+        const sortedNotes = notes.sort((a, b) => b.importance - a.importance);
+        this.onNotesChanged(sortedNotes);
     }
 
-    sortByCreated() {
-        this.notes.sort((a, b) => Number(b.created) - Number(a.created));
-        this.onNotesChanged(this.notes);
+    async sortByCreated() {
+        const notes = await httpService.ajax('GET', '/notes', undefined);
+        const sortedNotes = notes.sort((a, b) => Number(b.created) - Number(a.created));
+        this.onNotesChanged(sortedNotes);
     }
 
-    sortByCompleted() {
-        this.notes.sort((a, b) => b.complete.timestamp - a.complete.timestamp);
-        this.onNotesChanged(this.notes);
+    async sortByCompleted() {
+        const notes = await httpService.ajax('GET', '/notes', undefined);
+        const sortedNotes = notes.sort((a, b) => b.complete.timestamp - a.complete.timestamp);
+        this.onNotesChanged(sortedNotes);
     }
 
-    filterFinished() {
-        const finishedNotes = this.notes.filter((note) => note.complete.done);
+    async filterFinished() {
+        const notes = await httpService.ajax('GET', '/notes', undefined);
+        const finishedNotes = notes.filter((note) => note.complete.done);
         this.onNotesChanged(finishedNotes);
     }
 

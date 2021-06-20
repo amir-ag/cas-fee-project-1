@@ -1,27 +1,28 @@
 import NoteService from "../services/note-service.js";
 import NoteView from "../note-view.js";
-import initialNotes from '../services/data/initialNotes.js';
 
 class NoteController {
     constructor(model, view) {
         this.model = model;
         this.view = view;
-
-        window.addEventListener('DOMContentLoaded', (event) => {
-            this.render(this.model.notes);
-            this.view.bindFormActions(this.handleEditNote, this.handleAddNote);
-            this.view.bindNoteActions(this.handleDeleteNote, this.handleGetNote, this.handleToggleCompleted);
-            this.view.bindAddNote(this.handleAddNote);
-            this.view.bindSortEvents(this.handleSortByImportance, this.handleSortByCreated, this.handleSortByCompleted, this.handleFilterFinished)
-            this.view.headerTopActions();
-            this.view.cancelButton();
-            this.view.updateImportanceBar();
-            this.model.bindNotesChanged(this.onNotesChanged);
-        });
+        this.render();
+        this.model.bindNotesChanged(this.onNotesChanged);
     }
 
-    render = (notes) => {
-        this.view.render(notes)
+    init() {
+        this.view.bindFormActions(this.handleEditNote, this.handleAddNote);
+        this.view.bindNoteActions(this.handleDeleteNote, this.handleGetNote, this.handleToggleCompleted);
+        this.view.bindAddNote(this.handleAddNote);
+        this.view.bindSortEvents(this.handleSortByImportance, this.handleSortByCreated, this.handleSortByCompleted, this.handleFilterFinished)
+        this.view.headerTopActions();
+        this.view.cancelButton();
+        this.view.updateImportanceBar();
+    }
+
+    render = async () => {
+        const notes = await this.model.getNotes()
+        this.view.render(notes);
+        this.init();
     }
 
     onNotesChanged = (notes) => {
@@ -32,8 +33,8 @@ class NoteController {
         this.model.deleteNote(id);
     }
 
-    handleGetNote = (id) => {
-        return this.model.getNote(id);
+    handleGetNote = async (id) => {
+        return await this.model.getNote(id);
     }
 
     handleToggleCompleted = (id) => {
@@ -66,4 +67,4 @@ class NoteController {
     }
 }
 
-const app = new NoteController(new NoteService(initialNotes), new NoteView());
+const app = new NoteController(new NoteService(), new NoteView());

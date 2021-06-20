@@ -16,21 +16,22 @@ export default class NoteView {
     bindNoteActions(handleDelete, handleGetNote, handleToggleCompleted) {
         const noteList = document.querySelector('.note-list');
         noteList.addEventListener('click', (e) => {
+            e.preventDefault();
             if (e.target.className === 'delete-button') {
-                const id = parseInt(e.target.parentElement.parentElement.parentElement.id);
+                const {id} = e.target.parentElement.parentElement.parentElement;
                 handleDelete(id);
             }
             if (e.target.className === 'edit-button') {
-                e.preventDefault();
-                const id = parseInt(e.target.parentElement.parentElement.parentElement.id);
-                const editableNote = handleGetNote(id);
-                this.createNoteTemplate(editableNote);
-                this.updateNote(editableNote.id);
+                const {id} = e.target.parentElement.parentElement.parentElement;
+                handleGetNote(id)
+                    .then((res) => {
+                        this.createNoteTemplate(res);
+                    });
                 this.cancelButton();
                 this.hideNotesView();
             }
             if (e.target.className === 'checkbox') {
-                const id = parseInt(e.target.parentElement.parentElement.parentElement.id);
+                const {id} = e.target.parentElement.parentElement.parentElement;
                 handleToggleCompleted(id);
             }
         });
@@ -161,19 +162,19 @@ export default class NoteView {
             notes.forEach((note) => {
                 const color = getRandomColor();
                 noteListItems += `
-                <li id="${note.id}" class="note-item">
+                <li id="${note._id}" class="note-item">
                     <form class="edit-note">
                         <div class="dueday-container">
-                            <label for="dueDay ${note.id}">Get it done by: </label>
-                            <output id="dueDay ${note.id}" class="due-day">${note.dueDay.weekday}, ${note.dueDay.date}</output>
+                            <label for="dueDay ${note._id}">Get it done by: </label>
+                            <output id="dueDay ${note._id}" class="due-day">${note.dueDay.weekday}, ${note.dueDay.date}</output>
                         </div>
                         <div class="title-container ${color}">
                             <h2>${note.title}</h2>
                             <div class="importance-container">${createImportanceSVG(note.importance)}</div>
                         </div>
                         <div class="checkbox-form">
-                            <input id="checkbox ${note.id}" class="checkbox" type="checkbox" ${note.complete.done ? 'checked' : ''}>
-                            <label class="checkbox-label" for="checkbox ${note.id}">Finished</label>
+                            <input id="checkbox ${note._id}" class="checkbox" type="checkbox" ${note.complete.done ? 'checked' : ''}>
+                            <label class="checkbox-label" for="checkbox ${note._id}">Finished</label>
                         </div>
                         <div class="textarea ${color}">${note.description}</div>
                         <div class="button-container">
@@ -223,7 +224,7 @@ export default class NoteView {
         `;
         this.cancelButton();
         this.updateImportanceBar();
-        this.bindAddNote(this.addHandler);
+        editNote ? this.updateNote(editNote._id) : this.bindAddNote(this.addHandler);
     }
 
     render(notes) {
