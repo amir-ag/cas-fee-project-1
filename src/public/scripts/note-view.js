@@ -46,6 +46,7 @@ export default class NoteView {
                 description: document.querySelector('#create-description').value,
                 importance: document.querySelector('#create-importance').value,
                 date: document.querySelector('#create-date').value,
+                color: document.querySelector('#create-title').className,
             };
             handler(data);
             this.resetForm();
@@ -160,7 +161,6 @@ export default class NoteView {
         } else {
             let noteListItems = '';
             notes.forEach((note) => {
-                const color = getRandomColor();
                 noteListItems += `
                 <li id="${note._id}" class="note-item">
                     <form class="edit-note">
@@ -168,7 +168,7 @@ export default class NoteView {
                             <label for="dueDay ${note._id}">Get it done by: </label>
                             <output id="dueDay ${note._id}" class="due-day">${note.dueDay.weekday}, ${note.dueDay.date}</output>
                         </div>
-                        <div class="title-container ${color}">
+                        <div class="title-container ${note.color}">
                             <h2>${note.title}</h2>
                             <div class="importance-container">${createImportanceSVG(note.importance)}</div>
                         </div>
@@ -176,7 +176,7 @@ export default class NoteView {
                             <input id="checkbox ${note._id}" class="checkbox" type="checkbox" ${note.complete.done ? 'checked' : ''}>
                             <label class="checkbox-label" for="checkbox ${note._id}">Finished</label>
                         </div>
-                        <div class="textarea ${color}">${note.description}</div>
+                        <div class="textarea ${note.color}">${note.description}</div>
                         <div class="button-container">
                             <button class="edit-button">
                                 <img src="../assets/edit.svg" alt="edit"/>
@@ -196,6 +196,7 @@ export default class NoteView {
     }
 
     createNoteTemplate(editNote) {
+        const color = getRandomColor();
         this.createNoteView.innerHTML = `
         <form class="create-note">
             <div class="form-content-container">
@@ -204,8 +205,8 @@ export default class NoteView {
                     <label for="create-description">Description</label>
                 </div>
                 <div class="form-content">
-                    <input id="create-title" type="text" required value="${editNote && editNote.title ? editNote.title : ''}">
-                    <textarea id="create-description" required>${editNote && editNote.description ? editNote.description : ''}</textarea>    
+                    <input id="create-title" class="${color}" type="text" required value="${editNote && editNote.title ? editNote.title : ''}">
+                    <textarea id="create-description" class=${color} required>${editNote && editNote.description ? editNote.description : ''}</textarea>    
                 </div>
             </div>
             <div class="form-importance-container">
