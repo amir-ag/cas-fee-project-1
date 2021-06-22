@@ -13,15 +13,11 @@
   },
   "rules": {
     "indent": "off",
-    "no-plusplus": "off",
     "import/extensions": "off",
-    "object-curly-newline": "off",
     "object-curly-spacing": "off",
-    "linebreak-style": "off",
-    "radix": "off",
     "max-classes-per-file": "off",
-    "import/no-named-as-default": "off",
     "no-underscore-dangle": "off",
-    "no-unused-expressions": "off"
+    "no-unused-expressions": "off",
+    "class-methods-use-this": "off"
   }
 }
