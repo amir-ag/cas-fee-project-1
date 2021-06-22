@@ -38,7 +38,7 @@ class NotesStore {
     }
 
     update(note) {
-        return this.db.update({_id: note.id}, { $set: note });
+        return this.db.update({_id: note._id}, { $set: note });
     }
 
     delete(id) {

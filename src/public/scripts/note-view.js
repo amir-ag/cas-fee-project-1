@@ -107,7 +107,7 @@ export default class NoteView {
         submitForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const updatedData = {
-                id,
+                _id: id,
                 title: document.querySelector('#create-title').value,
                 description: document.querySelector('#create-description').value,
                 importance: document.querySelector('#create-importance').value,
