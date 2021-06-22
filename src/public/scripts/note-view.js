@@ -89,7 +89,7 @@ export default class NoteView {
         const cancelButton = document.querySelector('#cancel-button');
         cancelButton.addEventListener('click', () => {
             this.hideCreateNoteView();
-            this.resetForm(); // bug
+            this.resetForm();
         });
     }
 
@@ -107,7 +107,7 @@ export default class NoteView {
         submitForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const updatedData = {
-                id,
+                _id: id,
                 title: document.querySelector('#create-title').value,
                 description: document.querySelector('#create-description').value,
                 importance: document.querySelector('#create-importance').value,
@@ -196,7 +196,7 @@ export default class NoteView {
     }
 
     createNoteTemplate(editNote) {
-        const color = getRandomColor();
+        const color = editNote ? editNote.color : getRandomColor();
         this.createNoteView.innerHTML = `
         <form class="create-note">
             <div class="form-content-container">

@@ -38,7 +38,7 @@ class NotesStore {
     }
 
     update(note) {
-        return this.db.update({_id: note.id}, { $set: note });
+        return this.db.update({_id: note._id}, {$set: note});
     }
 
     delete(id) {
@@ -48,7 +48,14 @@ class NotesStore {
     async complete(id) {
         const note = await this.db.findOne({_id: id});
         const completed = await note.complete.done;
-        return this.db.update({_id: id}, {$set: {complete: {done: !completed, timestamp: completed ? null : Date.now()}}});
+        return this.db.update({_id: id}, {
+            $set: {
+                complete: {
+                    done: !completed,
+                    timestamp: completed ? null : Date.now(),
+                },
+            },
+        });
     }
 }
 
