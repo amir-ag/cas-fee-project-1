@@ -18,6 +18,7 @@
     "max-classes-per-file": "off",
     "no-underscore-dangle": "off",
     "no-unused-expressions": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "no-descending-specificity": "off"
   }
 }
