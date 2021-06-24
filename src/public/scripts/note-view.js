@@ -13,7 +13,7 @@ export default class NoteView {
         this.addHandler = addHandler;
     }
 
-    bindNoteActions(handleDelete, handleGetNote, handleToggleCompleted) {
+    bindNoteActions(handleDelete, handleOpenEditNoteView, handleToggleCompleted) {
         const noteList = document.querySelector('.note-list');
         noteList.addEventListener('click', (e) => {
             e.preventDefault();
@@ -23,12 +23,7 @@ export default class NoteView {
             }
             if (e.target.className === 'edit-button') {
                 const {id} = e.target.parentElement.parentElement.parentElement;
-                handleGetNote(id)
-                    .then((res) => {
-                        this.createNoteTemplate(res);
-                    });
-                this.cancelButton();
-                this.hideNotesView();
+                handleOpenEditNoteView(id);
             }
             if (e.target.className === 'checkbox') {
                 const {id} = e.target.parentElement.parentElement.parentElement;
@@ -49,8 +44,6 @@ export default class NoteView {
                 color: document.querySelector('#create-title').className,
             };
             handler(data);
-            this.resetForm();
-            this.hideCreateNoteView();
         });
     }
 
@@ -72,24 +65,22 @@ export default class NoteView {
         });
     }
 
-    headerTopActions() {
+    headerTopActions(handlerOpenCreate, handlerToggleStyle) {
         const headerTop = document.querySelector('.header-top');
         headerTop.addEventListener('click', (e) => {
             if (e.target.id === 'button-create') {
-                this.hideNotesView();
-                this.createNoteTemplate();
+                handlerOpenCreate();
             }
             if (e.target.id === 'theme-button') {
-                document.body.classList.toggle('alternative');
+                handlerToggleStyle();
             }
         });
     }
 
-    cancelButton() {
+    cancelButton(handler) {
         const cancelButton = document.querySelector('#cancel-button');
         cancelButton.addEventListener('click', () => {
-            this.hideCreateNoteView();
-            this.resetForm();
+            handler();
         });
     }
 
@@ -223,8 +214,6 @@ export default class NoteView {
             </div>
         </form>
         `;
-        this.cancelButton();
-        this.updateImportanceBar();
         editNote ? this.updateNote(editNote._id) : this.bindAddNote(this.addHandler);
     }
 
