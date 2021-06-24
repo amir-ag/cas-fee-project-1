@@ -1,7 +1,6 @@
 import httpService from './http-service.js';
 
 class NoteService {
-
     getNotes() {
         return httpService.ajax('GET', '/notes', undefined);
     }

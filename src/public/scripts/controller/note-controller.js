@@ -11,11 +11,11 @@ class NoteController {
 
     init() {
         this.view.bindFormActions(this.handleEditNote, this.handleAddNote);
-        this.view.bindNoteActions(this.handleDeleteNote, this.handleGetNote, this.handleToggleCompleted);
+        this.view.bindNoteActions(this.handleDeleteNote, this.handleOpenEditNoteView, this.handleToggleCompleted);
         this.view.bindAddNote(this.handleAddNote);
+        this.view.headerTopActions(this.handleOpenCreateNoteView, this.handleToggleStyle);
         this.view.bindSortEvents(this.handleSortByImportance, this.handleSortByCreated, this.handleSortByCompleted, this.handleFilterFinished)
-        this.view.headerTopActions();
-        this.view.cancelButton();
+        this.view.cancelButton(this.handleHideCreateNoteView);
         this.view.updateImportanceBar();
     }
 
@@ -33,16 +33,37 @@ class NoteController {
         this.model.deleteNote(id);
     }
 
-    handleGetNote = async (id) => {
-        return await this.model.getNote(id);
+    handleOpenEditNoteView = async (id) => {
+        const note = await this.model.getNote(id);
+        this.view.createNoteTemplate(note);
+        this.view.cancelButton(this.handleHideCreateNoteView);
+        this.view.hideNotesView();
+    }
+
+    handleOpenCreateNoteView = () => {
+        this.view.hideNotesView();
+        this.view.createNoteTemplate();
+        this.view.cancelButton(this.handleHideCreateNoteView);
+        this.view.updateImportanceBar();
+    }
+
+    handleHideCreateNoteView = () => {
+        this.view.hideCreateNoteView();
+        this.view.resetForm();
     }
 
     handleToggleCompleted = (id) => {
         this.model.toggleCompleted(id);
     }
 
-    handleAddNote = (note) => {
-        this.model.addNote(note);
+    handleToggleStyle = () => {
+        document.body.classList.toggle('alternative');
+    }
+
+    handleAddNote = async (note) => {
+        await this.model.addNote(note);
+        this.view.resetForm();
+        this.view.hideCreateNoteView();
     }
 
     handleEditNote = (note) => {
